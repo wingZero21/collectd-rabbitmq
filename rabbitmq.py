@@ -1,6 +1,3 @@
-"""
-python plugin for collectd to obtain rabbitmq stats
-"""
 import collectd
 import urllib2
 import urllib
@@ -9,12 +6,9 @@ import re
 
 RABBIT_API_URL = "http://{host}:{port}/api/"
 
-QUEUE_MESSAGE_STATS = ['messages', 'messages_ready', 'messages_unacknowledged']
-QUEUE_STATS = ['memory', 'messages', 'consumers']
+QUEUE_MESSAGE_STATS = ['messages', 'messages_ready', 'messages_unacknowledged'] QUEUE_STATS = ['memory', 'messages', 'consumers']
 
-MESSAGE_STATS = ['ack', 'publish', 'publish_in', 'publish_out', 'confirm', 'deliver', 'deliver_noack', 'get', 'get_noack', 'deliver_get', 'redeliver', 'return']
-MESSAGE_DETAIL = ['avg', 'avg_rate', 'rate', 'sample']
-NODE_STATS = ['disk_free', 'disk_free_limit', 'fd_total',\
+MESSAGE_STATS = ['ack', 'publish', 'publish_in', 'publish_out', 'confirm', 'deliver', 'deliver_noack', 'get', 'get_noack', 'deliver_get', 'redeliver', 'return'] MESSAGE_DETAIL = ['avg', 'avg_rate', 'rate', 'sample'] NODE_STATS = ['disk_free', 'disk_free_limit', 'fd_total',\
               'fd_used', 'mem_limit', 'mem_used', \
               'proc_total', 'proc_used', 'processors', 'run_queue',\
               'sockets_total', 'sockets_used'
@@ -27,6 +21,18 @@ PLUGIN_CONFIG = {
     'port': 15672,
     'realm': 'RabbitMQ Management'
 }
+
+'''
+Add metric seperator for hostname
+'''
+
+host_separator = "_"
+metric_separator = "."
+
+'''
+End Metric Seperator
+'''
+
 
 def configure(config_values):
     '''
@@ -116,7 +122,7 @@ def dispatch_queue_metrics(queue, vhost):
     Dispatches queue metrics for queue in vhost
     '''
 
-    vhost_name = 'rabbitmq_%s' % (vhost['name'].replace('/', 'default'))
+    vhost_name = 'HOSTNAME HERE' 
     for name in QUEUE_STATS:
         values= (queue.get(name, 0),)
         dispatch_values(values, vhost_name, 'queues', queue['name'], 'rabbitmq_%s' % name)
@@ -137,7 +143,8 @@ def dispatch_exchange_metrics(exchange, vhost):
     '''
     Dispatches exchange metrics for exchange in vhost
     '''
-    vhost_name = 'rabbitmq_%s' % vhost['name'].replace('/', 'default')
+    vhost_name = 'HOSTNAME HERE' 
+    vhost_name.replace('.', host_separator)
     dispatch_message_stats(exchange.get('message_stats',None), vhost_name, 'exchanges', exchange['name'])
 
 def dispatch_node_metrics(node):
