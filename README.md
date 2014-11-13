@@ -6,6 +6,9 @@ A collected plugin, written in python, to collect statistics from RabbitMQ. Requ
 
 This has been amended from the NYTimes version to add host_separators for our current collectd setup. This means that it sends the metrics to graphite under the hostname.
 
+We currently send collectd metrics using the hostname THIS_HOSTNAME so we needed to swap this out to this format. By adding a hostname in the script with THIS.HOSTNAME it will replace the . with _.
+
+Will look to add in getting the hostname from the script automatically.
 
 Installation
 ============
