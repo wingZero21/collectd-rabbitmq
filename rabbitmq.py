@@ -3,6 +3,7 @@ import urllib2
 import urllib
 import json
 import re
+import socket
 
 RABBIT_API_URL = "http://{host}:{port}/api/"
 
@@ -23,8 +24,9 @@ PLUGIN_CONFIG = {
 }
 
 '''
-Add metric seperator for hostname
-'''
+Add metric seperator for hostname and add variable for hostname '''
+
+mqhostname = socket.gethostname()
 
 host_separator = "_"
 metric_separator = "."
@@ -122,7 +124,7 @@ def dispatch_queue_metrics(queue, vhost):
     Dispatches queue metrics for queue in vhost
     '''
 
-    vhost_name = 'HOSTNAME HERE' 
+    vhost_name = mqhostname
     for name in QUEUE_STATS:
         values= (queue.get(name, 0),)
         dispatch_values(values, vhost_name, 'queues', queue['name'], 'rabbitmq_%s' % name)
@@ -143,7 +145,7 @@ def dispatch_exchange_metrics(exchange, vhost):
     '''
     Dispatches exchange metrics for exchange in vhost
     '''
-    vhost_name = 'HOSTNAME HERE' 
+    vhost_name = mqhostname 
     vhost_name.replace('.', host_separator)
     dispatch_message_stats(exchange.get('message_stats',None), vhost_name, 'exchanges', exchange['name'])
 
