@@ -8,7 +8,25 @@ This has been amended from the NYTimes version to add host_separators for our cu
 
 We currently send collectd metrics using the hostname THIS_HOSTNAME so we needed to swap this out to this format. By adding a hostname in the script with THIS.HOSTNAME it will replace the . with _.
 
-Will look to add in getting the hostname from the script automatically.
+This plugin now gets the hostname of the server its running on and then replaces the hostname when sending to graphite or whichever location to THIS.HOST to THIS_HOST.
+
+Amendments
+```
+'''
+Add metric seperator for hostname and add variable for hostname '''
+
+mqhostname = socket.gethostname()
+
+host_separator = "_"
+metric_separator = "."
+
+'''
+End Metric Seperator
+'''
+
+vhost_name = mqhostname
+vhost_name.replace('.', host_separator)
+```
 
 Installation
 ============
