@@ -3,6 +3,10 @@ collectd-rabbitmq
 
 A collected plugin, written in python, to collect statistics from RabbitMQ. Requires that the rabbitmq management plugin is installed. 
 
+
+This has been amended from the NYTimes version to add host_separators for our current collectd setup. This means that it sends the metrics to graphite under the hostname.
+
+
 Installation
 ============
 
